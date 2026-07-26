@@ -1,0 +1,30 @@
+name: Build Gaming OS Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-os:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Make Script Executable
+      run: chmod +x customize.sh
+
+    - name: Test Customization Script
+      run: |
+        sudo ./customize.sh
+
+    - name: Save Status Log
+      run: |
+        echo "Build succeeded on $(date)" > build_info.txt
+
+    - name: Upload Build Output Log
+      uses: actions/upload-artifact@v4
+      with:
+        name: OS-Build-Log
+        path: build_info.txt
+
